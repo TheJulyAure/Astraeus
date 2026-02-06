@@ -1,0 +1,17 @@
+{
+    "chat.editMode.hidden": true,
+    "chat.includeReferencedInstructions": true,
+    "chat.mcp.assisted.nuget.enabled": true,
+    "chat.mcp.discovery.enabled": {
+        "claude-desktop": true,
+        "windsurf": true,
+        "cursor-workspace": true,
+        "cursor-global": true
+    },
+    "chat.restoreLastPanelSession": true,
+    "chat.tips.enabled": true,
+    "chat.tools.terminal.autoReplyToPrompts": true,
+    "chat.editing.explainChanges.enabled": true,
+    "chat.experimental.useSkillAdherencePrompt": true,
+    "chat.mcp.autostart": "onlyNew"
+}

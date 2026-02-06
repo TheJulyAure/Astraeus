@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Repository health check
+        run: |
+          for dir in backend frontend config; do
+            if [ ! -d "$dir" ]; then
+              echo "Missing required directory: $dir"
+              exit 1
+            fi
+          done
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Backend build (.NET optional)
+        run: |
+          if find . -name "*.sln" -o -name "*.csproj" | grep -q .; then
+            dotnet build
+          else
+            echo "No .NET solution/project files; skipping."
+          fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Frontend build (optional)
+        run: |
+          if [ -f "frontend/package.json" ]; then
+            cd frontend
+            npm ci
+            npm run build --if-present
+          else
+            echo "No frontend/package.json; skipping."
+          fi
+      - name: Backend build (optional)
+        run: |
+          if [ -f "backend/package.json" ]; then
+            cd backend
+            npm ci
+            npm run build --if-present
+          else
+            echo "No backend/package.json; skipping."
+          fi
